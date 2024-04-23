@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: WorkspaceConfiguration
+Bundle-SymbolicName: com.hahnentt.eclipse.workspace.configuration.application;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources
+Bundle-Vendor: HAHNENTT
+Automatic-Module-Name: com.hahnentt.eclipse.workspace.configuration.application
+Bundle-RequiredExecutionEnvironment: JavaSE-11

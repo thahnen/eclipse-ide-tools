@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Plugin
+Bundle-SymbolicName: com.hahnentt.eclipse.workspace.configuration.plugin;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.hahnentt.eclipse.workspace.configuration.WorkspaceConfigurationPlugin
+Bundle-Vendor: HAHNENTT
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: com.hahnentt.eclipse.workspace.configuration.plugin
+Bundle-ActivationPolicy: lazy

@@ -21,6 +21,11 @@ TODOs:
 - back-up workspace in case something breaks
 - forbid users to create projects inside the workspace, just outside of it
 
+#### Workspace configuration
+
+This is an application / plug-in that is used to configure a workspace based on Eclipse preferences
+on the workspace or instance level.
+
 ## Knowledge base
 
 This paragraph contains some information for working with the Eclipse IDE in order to access some
