@@ -20,6 +20,7 @@ TODOs:
 - not only replace same artifact but get rid of all old iBuild applications / workspaces
 - back-up workspace in case something breaks
 - forbid users to create projects inside the workspace, just outside of it
+- install Bndtools snapshot plug-ins
 
 #### Workspace configuration
 
@@ -32,6 +33,7 @@ This paragraph contains some information for working with the Eclipse IDE in ord
 information not well known or not publically available.
 
 #### List all available Eclipse Update Sites (after opened at least once) on macOS
+
 > cat $APPLICATION/Contents/Eclipse/p2/org.eclipse.equinox.p2.engine/profileRegistry/$PROFILE/.data/.settings/org.eclipse.equinox.p2.artifact.repository.prefs
 
 The actual URIs are available when running the command piped with `grep "/uri="`.

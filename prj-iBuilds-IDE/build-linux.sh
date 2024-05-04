@@ -43,13 +43,13 @@ fi
 # =============================================================================
 #   1) Remove old artifacts
 # =============================================================================
-rm -rf $BUILD_DIR >/dev/null 2>&1
+rm -rf $BUILD_DIR
 
 
 # =============================================================================
 #   2) Download compositeArtifacts.jar and extract XML for newest version
 # =============================================================================
-mkdir $BUILD_DIR >/dev/null 2>&1
+mkdir $BUILD_DIR
 wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE
 unzip $COMPOSITE_ARTIFACTS_JAR_FILE -d $BUILD_DIR
 rm -f $COMPOSITE_ARTIFACTS_JAR_FILE
@@ -116,7 +116,7 @@ org.eclipse.reddeer.ui.feature.feature.group \
 #   5) Remove logs
 # =============================================================================
 pushd $CONFIG_DIR
-rm *.log >/dev/null 2>&1
+rm *.log
 popd
 
 

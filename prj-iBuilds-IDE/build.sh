@@ -43,16 +43,16 @@ fi
 # =============================================================================
 #   1) Remove old artifacts
 # =============================================================================
-rm -rf $BUILD_DIR >/dev/null 2>&1
+rm -rf $BUILD_DIR
 
 
 # =============================================================================
 #   2) Download compositeArtifacts.jar and extract XML for newest version
 # =============================================================================
-mkdir $BUILD_DIR >/dev/null 2>&1
-wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE >/dev/null 2>&1
-unzip $COMPOSITE_ARTIFACTS_JAR_FILE -d $BUILD_DIR >/dev/null 2>&1
-rm -f $COMPOSITE_ARTIFACTS_JAR_FILE >/dev/null 2>&1
+mkdir $BUILD_DIR
+wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE
+unzip $COMPOSITE_ARTIFACTS_JAR_FILE -d $BUILD_DIR
+rm -f $COMPOSITE_ARTIFACTS_JAR_FILE
 
 I_BUILDS_VERSION="$(xmllint --xpath 'string(/repository/children/child[last()]/@location)' $COMPOSITE_ARTIFACTS_XML_FILE)"
 
@@ -63,9 +63,9 @@ I_BUILDS_VERSION="$(xmllint --xpath 'string(/repository/children/child[last()]/@
 ECLIPSE_URL="${ECLIPSE_DMG_TEMPLATE//VERSION/$I_BUILDS_VERSION}"
 ECLIPSE_URL="${ECLIPSE_URL//ARCH/$ECLIPSE_ARCH}"
 
-wget $ECLIPSE_URL -O $INSTALLER_FILE >/dev/null 2>&1
-7zz -o$BUILD_DIR x $INSTALLER_FILE >/dev/null 2>&1
-rm -f $INSTALLER_FILE >/dev/null 2>&1
+wget $ECLIPSE_URL -O $INSTALLER_FILE
+7zz -o$BUILD_DIR x $INSTALLER_FILE
+rm -f $INSTALLER_FILE
 
 
 # =============================================================================
@@ -74,8 +74,8 @@ rm -f $INSTALLER_FILE >/dev/null 2>&1
 APPLICATION_NAME="Eclipse-$I_BUILDS_VERSION.app"
 APPLICATION_FILE="$BUILD_DIR/$APPLICATION_NAME"
 
-mv $BUILD_DIR/Eclipse/Eclipse.app $APPLICATION_FILE >/dev/null 2>&1
-rm -rf $BUILD_DIR/Eclipse >/dev/null 2>&1
+mv $BUILD_DIR/Eclipse/Eclipse.app $APPLICATION_FILE
+rm -rf $BUILD_DIR/Eclipse
 
 
 # =============================================================================
@@ -101,8 +101,8 @@ replaceStringInFile $INFO_PLIST "<string>Eclipse</string>" \
 # =============================================================================
 #   6) Install necessary plug-ins for development
 # =============================================================================
-touch "$APPLICATION_FILE" >/dev/null 2>&1
-codesign --force --deep --sign - "$APPLICATION_FILE" >/dev/null 2>&1
+touch "$APPLICATION_FILE"
+codesign --force --deep --sign - "$APPLICATION_FILE"
 
 $APPLICATION_FILE/Contents/MacOS/eclipse -noSplash \
     -application org.eclipse.equinox.p2.director \
@@ -135,28 +135,47 @@ org.eclipse.reddeer.ui.feature.feature.group \
 #   7) Remove logs and sign again
 # =============================================================================
 pushd $CONFIG_DIR
-rm *.log >/dev/null 2>&1
+rm *.log
 popd
 
-touch "$APPLICATION_FILE" >/dev/null 2>&1
-codesign --force --deep --sign - "$APPLICATION_FILE" >/dev/null 2>&1
+touch "$APPLICATION_FILE"
+codesign --force --deep --sign - "$APPLICATION_FILE"
 
 
 # =============================================================================
-#   8) Move to user application folder and replace existing installation
+#   8) Remove all the old workspaces
 # =============================================================================
-INSTALLATION_DIR="$HOME/Applications/$APPLICATION_NAME"
-
-if [[ -f "$INSTALLATION_DIR" ]]; then
-    rm -rf $INSTALLATION_DIR >/dev/null 2>&1
-    which dockutil >/dev/null 2>&1
-    if [[ "$?" -eq "0" ]]; then
-        dockutil --remove "org.eclipse.sdk.ide.$I_BUILDS_VERSION"
-    fi
+if ls $HOME/workspaces/I* >/dev/null 2>&1; then
+    for workspace in $HOME/workspaces/I*; do
+        rm -rf $workspace
+    done
 fi
 
-mv $APPLICATION_FILE $INSTALLATION_DIR >/dev/null 2>&1
+
+# =============================================================================
+#   9) Move to user application folder and delete old ones
+# =============================================================================
+APPLICATIONS_DIR="$HOME/Applications"
+if [[ ! -d "$APPLICATIONS_DIR" ]]; then
+    mkdir -p $APPLICATIONS_DIR/$APPLICATION_NAME
+fi
+
+if ls $APPLICATIONS_DIR/Eclipse-I* >/dev/null 2>&1; then
+    for ibuilds_installation in $APPLICATIONS_DIR/Eclipse-I*; do
+        INSTALLATION_NAME="$(basename $ibuilds_installation)"
+        FOUND_I_BUILDS_VERSION=${INSTALLATION_NAME#"Eclipse-"}
+        FOUND_I_BUILDS_VERSION=${FOUND_I_BUILDS_VERSION%".app"}
+        rm -rf $ibuilds_installation
+        which dockutil >/dev/null 2>&1
+        if [[ "$?" -eq "0" ]]; then
+            dockutil --remove "org.eclipse.sdk.ide.$FOUND_I_BUILDS_VERSION"
+        fi
+    done
+fi
+
+INSTALLATION_DIR="$APPLICATIONS_DIR/$APPLICATION_NAME"
+mv $APPLICATION_FILE $INSTALLATION_DIR
 which dockutil >/dev/null 2>&1
 if [[ "$?" -eq "0" ]]; then
-    dockutil --add $INSTALLATION_DIR >/dev/null 2>&1
+    dockutil --add $INSTALLATION_DIR
 fi
