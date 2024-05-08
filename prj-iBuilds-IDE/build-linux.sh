@@ -158,11 +158,9 @@ if [[ ! -d "$DESKTOP_DIR" ]]; then
     mkdir -p $DESKTOP_DIR
 fi
 
-if ls "$DESKTOP_DIR/Eclipse-I*" >/dev/null 2>&1; then
-    for ibuilds_installation in $DESKTOP_DIR/Eclipse-I*; do
-        rm -f $ibuilds_installation
-    done
-fi
+for ibuilds_installation in $DESKTOP_DIR/Eclipse-I*; do
+    rm -f $ibuilds_installation
+done
 
 cp $DIR/Eclipse-iBuilds.desktop $DESKTOP_FILE
 

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=TPL_APPLICATION_NAME
 Type=Application
-Exec=env WEBKIT_DISABLE_COMPOSITING_MODE=1 TPL_HOME_DIR/applications/TPL_APPLICATION_NAME/eclipse
+Exec=env GDK_BACKEND=x11 TPL_HOME_DIR/applications/TPL_APPLICATION_NAME/eclipse
 Terminal=false
 Icon=TPL_HOME_DIR/applications/TPL_APPLICATION_NAME/icon.xpm
 NoDisplay=false
