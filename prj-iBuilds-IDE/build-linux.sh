@@ -92,12 +92,14 @@ $APPLICATION_DIR/eclipse -noSplash \
     -profile SDKProfile \
     -followReferences
 
-$APPLICATION_DIR/eclipse -noSplash \
-    -application org.eclipse.equinox.p2.director \
-    -repository https://binaries.sonarsource.com/SonarLint-for-Eclipse/dogfood/ \
-    -installIU org.sonarlint.eclipse.feature.feature.group \
-    -profile SDKProfile \
-    -followReferences
+if [[ -z ${SKIP_SONARLINT+x} ]]; then
+    $APPLICATION_DIR/eclipse -noSplash \
+        -application org.eclipse.equinox.p2.director \
+        -repository https://binaries.sonarsource.com/SonarLint-for-Eclipse/dogfood/ \
+        -installIU org.sonarlint.eclipse.feature.feature.group \
+        -profile SDKProfile \
+        -followReferences
+fi
 
 $APPLICATION_DIR/eclipse -noSplash \
     -application org.eclipse.equinox.p2.director \
