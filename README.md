@@ -15,9 +15,14 @@ the Eclipse SDK with all the necessary features / plug-ins / configurations used
 order to dogfood all the components while having a somewhat stable environment for actual proper
 development and not just for messing around.
 
+Currently the installed plug-ins are:
+- Eclipse Maven integration (m2e)
+- SonarLint, optional but enabled by default
+- RedDeer UI testing framework
+- WindowBuilder
+
 TODOs:
 - add configuration application / plug-in for setting up workspace with specific preferences
-- not only replace same artifact but get rid of all old iBuild applications / workspaces
 - back-up workspace in case something breaks
 - forbid users to create projects inside the workspace, just outside of it
 - install Bndtools snapshot plug-ins
