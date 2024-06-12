@@ -113,7 +113,7 @@ org.eclipse.reddeer.ui.feature.feature.group \
     -profile SDKProfile \
     -followReferences
 
-$APPLICATION_FILE/Contents/MacOS/eclipse -noSplash \
+$APPLICATION_DIR/eclipse -noSplash \
     -application org.eclipse.equinox.p2.director \
     -repository https://download.eclipse.org/windowbuilder/updates/milestone/latest/ \
     -installIU org.eclipse.wb.core.feature.feature.group,\
