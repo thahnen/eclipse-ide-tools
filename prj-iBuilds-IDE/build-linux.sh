@@ -30,7 +30,7 @@ function awaitUser() {
 # =============================================================================
 #   *) Templated and fallback configuration
 # =============================================================================
-ECLIPSE_VERSION="4.32"
+ECLIPSE_VERSION="4.33"
 ECLIPSE_COMPOSITE_URL="https://www.eclipse.org/downloads/download.php?file=/eclipse/updates/$ECLIPSE_VERSION-I-builds/compositeArtifacts.jar"
 ECLIPSE_TARGZ_TEMPLATE="https://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops4/VERSION/eclipse-SDK-VERSION-linux-gtk-ARCH.tar.gz"
 
