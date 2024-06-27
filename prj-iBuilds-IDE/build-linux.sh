@@ -83,12 +83,28 @@ replaceStringInFile "$CONFIG_DIR/config.ini" "@user.home/workspace" \
 
 
 # =============================================================================
-#   4) Install necessary plug-ins for development
+#   4) Fix configuration: eclipse.ini with Java 21 runtime
+# =============================================================================
+ECLIPSE_INI="$APPLICATION_DIR/eclipse.ini"
+
+replaceStringInFile "$ECLIPSE_INI" "-vmargs" \
+    "-vm\n/usr/lib/jvm/java-21-openjdk-amd64/bin/java\n-vmargs"
+
+
+# =============================================================================
+#   5) Install necessary plug-ins for development
 # =============================================================================
 $APPLICATION_DIR/eclipse -noSplash \
     -application org.eclipse.equinox.p2.director \
     -repository https://download.eclipse.org/technology/m2e/snapshots/latest/ \
     -installIU org.eclipse.m2e.sdk.feature.feature.group \
+    -profile SDKProfile \
+    -followReferences
+
+$APPLICATION_DIR/eclipse -noSplash \
+    -application org.eclipse.equinox.p2.director \
+    -repository https://download.eclipse.org/buildship/updates/latest-snapshot/ \
+    -installIU org.eclipse.buildship.feature.group \
     -profile SDKProfile \
     -followReferences
 
@@ -132,7 +148,7 @@ org.eclipse.wb.rcp.SWT_AWT_support.feature.group \
 
 
 # =============================================================================
-#   5) Remove logs
+#   6) Remove logs
 # =============================================================================
 pushd $CONFIG_DIR
 rm *.log
@@ -140,7 +156,7 @@ popd
 
 
 # =============================================================================
-#   6) Remove all the old workspaces
+#   7) Remove all the old workspaces
 # =============================================================================
 if ls $HOME/workspaces/I* >/dev/null 2>&1; then
     for workspace in $HOME/workspaces/I*; do
@@ -150,7 +166,7 @@ fi
 
 
 # =============================================================================
-#   7) Move to user application folder and delete old ones
+#   8) Move to user application folder and delete old ones
 # =============================================================================
 APPLICATIONS_DIR="$HOME/applications"
 if [[ ! -d "$APPLICATIONS_DIR" ]]; then
@@ -168,7 +184,7 @@ cp -r $APPLICATION_DIR $APPLICATIONS_DIR/$APPLICATION_NAME
 
 
 # =============================================================================
-#   8) Create desktop files and delete old ones
+#   9) Create desktop files and delete old ones
 # =============================================================================
 DESKTOP_DIR="$HOME/.local/share/applications"
 DESKTOP_FILE="$DESKTOP_DIR/$APPLICATION_NAME.desktop"

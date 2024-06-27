@@ -111,6 +111,13 @@ $APPLICATION_FILE/Contents/MacOS/eclipse -noSplash \
     -profile SDKProfile \
     -followReferences
 
+$APPLICATION_FILE/Contents/MacOS/eclipse -noSplash \
+    -application org.eclipse.equinox.p2.director \
+    -repository https://download.eclipse.org/buildship/updates/latest-snapshot/ \
+    -installIU org.eclipse.buildship.feature.group \
+    -profile SDKProfile \
+    -followReferences
+
 if [[ -z ${SKIP_SONARLINT+x} ]]; then
     $APPLICATION_FILE/Contents/MacOS/eclipse -noSplash \
         -application org.eclipse.equinox.p2.director \
