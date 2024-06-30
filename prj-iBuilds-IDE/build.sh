@@ -58,7 +58,7 @@ I_BUILDS_VERSION="$(xmllint --xpath 'string(/repository/children/child[last()]/@
 
 
 # =============================================================================
-#   2) Download installer and unzip the actual installation
+#   3) Download installer and unzip the actual installation
 # =============================================================================
 ECLIPSE_URL="${ECLIPSE_DMG_TEMPLATE//VERSION/$I_BUILDS_VERSION}"
 ECLIPSE_URL="${ECLIPSE_URL//ARCH/$ECLIPSE_ARCH}"
@@ -69,7 +69,7 @@ rm -f $INSTALLER_FILE
 
 
 # =============================================================================
-#   3) Prepare iBuilds installation for additional changes
+#   4) Prepare iBuilds installation for additional changes
 # =============================================================================
 APPLICATION_NAME="Eclipse-$I_BUILDS_VERSION.app"
 APPLICATION_FILE="$BUILD_DIR/$APPLICATION_NAME"
@@ -79,7 +79,7 @@ rm -rf $BUILD_DIR/Eclipse
 
 
 # =============================================================================
-#   4) Fix configuration: config.ini with default workspace
+#   5) Fix configuration: config.ini with default workspace
 # =============================================================================
 CONFIG_DIR="$APPLICATION_FILE/Contents/Eclipse/configuration"
 
@@ -88,7 +88,19 @@ replaceStringInFile "$CONFIG_DIR/config.ini" "@user.home/Documents/workspace" \
 
 
 # =============================================================================
-#   5) Fix installation: Info.plist with identifier / (display) name
+#   6) Fix configuration: eclipse.ini with Java 21 runtime
+# =============================================================================
+ECLIPSE_INI="$APPLICATION_FILE/Contents/Eclipse/eclipse.ini"
+
+JAVA_INSTALLATION_DIR="$(/usr/libexec/java_home -v "21")"
+JAVA_EXECUTABLE_FILE="$JAVA_INSTALLATION_DIR/bin/java"
+
+replaceStringInFile "$ECLIPSE_INI" "-vmargs" \
+    "-vm\n$JAVA_EXECUTABLE_FILE\n-vmargs"
+
+
+# =============================================================================
+#   7) Fix installation: Info.plist with identifier / (display) name
 # =============================================================================
 INFO_PLIST="$APPLICATION_FILE/Contents/Info.plist"
 
@@ -99,7 +111,7 @@ replaceStringInFile $INFO_PLIST "<string>Eclipse</string>" \
 
 
 # =============================================================================
-#   6) Install necessary plug-ins for development
+#   8) Install necessary plug-ins for development
 # =============================================================================
 touch "$APPLICATION_FILE"
 codesign --force --deep --sign - "$APPLICATION_FILE"
@@ -158,7 +170,7 @@ org.eclipse.wb.rcp.SWT_AWT_support.feature.group \
 
 
 # =============================================================================
-#   7) Remove logs and sign again
+#   9) Remove logs and sign again
 # =============================================================================
 pushd $CONFIG_DIR
 rm *.log
@@ -169,7 +181,7 @@ codesign --force --deep --sign - "$APPLICATION_FILE"
 
 
 # =============================================================================
-#   8) Remove all the old workspaces
+#   10) Remove all the old workspaces
 # =============================================================================
 if ls $HOME/workspaces/I* >/dev/null 2>&1; then
     for workspace in $HOME/workspaces/I*; do
@@ -179,7 +191,7 @@ fi
 
 
 # =============================================================================
-#   9) Move to user application folder and delete old ones
+#   11) Move to user application folder and delete old ones
 # =============================================================================
 APPLICATIONS_DIR="$HOME/Applications"
 if [[ ! -d "$APPLICATIONS_DIR" ]]; then

@@ -58,7 +58,7 @@ I_BUILDS_VERSION="$(xmllint --xpath 'string(/repository/children/child[last()]/@
 
 
 # =============================================================================
-#   2) Download archive and prepare the actual installation for changes
+#   3) Download archive and prepare the actual installation for changes
 # =============================================================================
 ECLIPSE_URL="${ECLIPSE_TARGZ_TEMPLATE//VERSION/$I_BUILDS_VERSION}"
 ECLIPSE_URL="${ECLIPSE_URL//ARCH/$ECLIPSE_ARCH}"
@@ -74,7 +74,7 @@ rm -f $ARCHIVE_FILE
 
 
 # =============================================================================
-#   3) Fix configuration: config.ini with default workspace
+#   4) Fix configuration: config.ini with default workspace
 # =============================================================================
 CONFIG_DIR="$APPLICATION_DIR/configuration"
 
@@ -83,7 +83,7 @@ replaceStringInFile "$CONFIG_DIR/config.ini" "@user.home/workspace" \
 
 
 # =============================================================================
-#   4) Fix configuration: eclipse.ini with Java 21 runtime
+#   5) Fix configuration: eclipse.ini with Java 21 runtime
 # =============================================================================
 ECLIPSE_INI="$APPLICATION_DIR/eclipse.ini"
 
@@ -92,7 +92,7 @@ replaceStringInFile "$ECLIPSE_INI" "-vmargs" \
 
 
 # =============================================================================
-#   5) Install necessary plug-ins for development
+#   6) Install necessary plug-ins for development
 # =============================================================================
 $APPLICATION_DIR/eclipse -noSplash \
     -application org.eclipse.equinox.p2.director \
@@ -148,7 +148,7 @@ org.eclipse.wb.rcp.SWT_AWT_support.feature.group \
 
 
 # =============================================================================
-#   6) Remove logs
+#   7) Remove logs
 # =============================================================================
 pushd $CONFIG_DIR
 rm *.log
@@ -156,7 +156,7 @@ popd
 
 
 # =============================================================================
-#   7) Remove all the old workspaces
+#   8) Remove all the old workspaces
 # =============================================================================
 if ls $HOME/workspaces/I* >/dev/null 2>&1; then
     for workspace in $HOME/workspaces/I*; do
@@ -166,7 +166,7 @@ fi
 
 
 # =============================================================================
-#   8) Move to user application folder and delete old ones
+#   9) Move to user application folder and delete old ones
 # =============================================================================
 APPLICATIONS_DIR="$HOME/applications"
 if [[ ! -d "$APPLICATIONS_DIR" ]]; then
@@ -184,7 +184,7 @@ cp -r $APPLICATION_DIR $APPLICATIONS_DIR/$APPLICATION_NAME
 
 
 # =============================================================================
-#   9) Create desktop files and delete old ones
+#   10) Create desktop files and delete old ones
 # =============================================================================
 DESKTOP_DIR="$HOME/.local/share/applications"
 DESKTOP_FILE="$DESKTOP_DIR/$APPLICATION_NAME.desktop"

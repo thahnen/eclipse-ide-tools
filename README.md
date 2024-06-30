@@ -17,6 +17,7 @@ development and not just for messing around.
 
 Currently the installed plug-ins are:
 - Eclipse Maven integration (m2e)
+- Eclipse Buildship
 - SonarLint, optional but enabled by default
 - RedDeer UI testing framework
 - WindowBuilder
