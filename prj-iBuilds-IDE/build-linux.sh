@@ -201,4 +201,30 @@ cp $DIR/Eclipse-iBuilds.desktop $DESKTOP_FILE
 
 replaceStringInFile $DESKTOP_FILE "TPL_APPLICATION_NAME" "$APPLICATION_NAME"
 replaceStringInFile $DESKTOP_FILE "TPL_HOME_DIR" "$HOME"
+
+
+# =============================================================================
+#   11) Update Gnome Desktop favorites
+# =============================================================================
+FAVORITES_DCONF="$(dconf read /org/gnome/shell/favorite-apps)"
+FAVORITES_DCONF="${FAVORITES_DCONF#?}"
+FAVORITES_DCONF="${FAVORITES_DCONF%?}"
+IFS=', ' read -r -a FAVORITES <<< "$FAVORITES_DCONF"
+
+NEW_FAVORITES="["
+ALREADY_FOUND=false
+for favorite in "${FAVORITES[@]}"; do
+    if [[ "$favorite" == *"Eclipse-I"* ]]; then
+        NEW_FAVORITES="$NEW_FAVORITES '$(basename $DESKTOP_FILE)',"
+        ALREADY_FOUND=true
+    else
+        NEW_FAVORITES="$NEW_FAVORITES $favorite,"
+    fi
+done
+if [[ $ALREADY_FOUND = false ]]; then
+    NEW_FAVORITES="$NEW_FAVORITES '$(basename $DESKTOP_FILE)',"
+fi
+NEW_FAVORITES="${NEW_FAVORITES%?}]"
+
+dconf write /org/gnome/shell/favorite-apps "$NEW_FAVORITES"
 xdg-desktop-menu forceupdate
