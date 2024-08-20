@@ -26,15 +26,6 @@ function awaitUser() {
     done
 }
 
-# Download based on cURL/wget installation
-function download() {
-    if [[ "$USE_CURL" -ne "0" ]]; then
-        wget $1 -O $2
-    else
-        curl $1 --output $2
-    fi
-}
-
 
 # =============================================================================
 #   *) Templated and fallback configuration
@@ -58,16 +49,10 @@ rm -rf $BUILD_DIR
 # =============================================================================
 #   2) Check for all necessary dependencies
 # =============================================================================
-which curl
+which wget
 if [[ "$?" -ne "0" ]]; then
-    which wget
-    if [[ "$?" -ne "0" ]]; then
-        echo "cURL/wget not installed, install one of them with Homebrew!"
-        return
-    fi
-    USE_CURL=1
-else
-    USE_CURL=0
+    echo "'wget' required, please run 'brew install wget'!"
+    return
 fi
 
 which 7zz
@@ -92,7 +77,7 @@ fi
 #   3) Download compositeArtifacts.jar and extract XML for newest version
 # =============================================================================
 mkdir $BUILD_DIR
-download $ECLIPSE_COMPOSITE_URL $COMPOSITE_ARTIFACTS_JAR_FILE
+wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE
 unzip $COMPOSITE_ARTIFACTS_JAR_FILE -d $BUILD_DIR
 rm -f $COMPOSITE_ARTIFACTS_JAR_FILE
 
@@ -105,7 +90,7 @@ I_BUILDS_VERSION="$(xmllint --xpath 'string(/repository/children/child[last()]/@
 ECLIPSE_URL="${ECLIPSE_DMG_TEMPLATE//VERSION/$I_BUILDS_VERSION}"
 ECLIPSE_URL="${ECLIPSE_URL//ARCH/$ECLIPSE_ARCH}"
 
-download $ECLIPSE_URL $INSTALLER_FILE
+wget $ECLIPSE_URL -O $INSTALLER_FILE
 7zz -o$BUILD_DIR x $INSTALLER_FILE
 rm -f $INSTALLER_FILE
 
