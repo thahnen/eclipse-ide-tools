@@ -26,6 +26,15 @@ function awaitUser() {
     done
 }
 
+# Download based on cURL/wget installation
+function download() {
+    if [[ "$USE_CURL" -ne "0" ]]; then
+        wget $1 -O $2
+    else
+        curl $1 --output $2
+    fi
+}
+
 
 # =============================================================================
 #   *) Templated and fallback configuration
@@ -47,10 +56,43 @@ rm -rf $BUILD_DIR
 
 
 # =============================================================================
-#   2) Download compositeArtifacts.jar and extract XML for newest version
+#   2) Check for all necessary dependencies
+# =============================================================================
+which curl
+if [[ "$?" -ne "0" ]]; then
+    which wget
+    if [[ "$?" -ne "0" ]]; then
+        echo "cURL/wget not installed, install one of them with Homebrew!"
+        return
+    fi
+    USE_CURL=1
+else
+    USE_CURL=0
+fi
+
+which 7zz
+if [[ "$?" -ne "0" ]]; then
+    echo "'7zz' required, please run 'brew install sevenzip'!"
+    return
+fi
+
+which xmllint
+if [[ "$?" -ne "0" ]]; then
+    echo "'xmllint' required, please install it with Homebrew!"
+    return
+fi
+
+which dockutil
+if [[ "$?" -ne "0" ]]; then
+    echo "'dockutil' is optional, run 'brew install dockutil'!"
+fi
+
+
+# =============================================================================
+#   3) Download compositeArtifacts.jar and extract XML for newest version
 # =============================================================================
 mkdir $BUILD_DIR
-wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE
+download $ECLIPSE_COMPOSITE_URL $COMPOSITE_ARTIFACTS_JAR_FILE
 unzip $COMPOSITE_ARTIFACTS_JAR_FILE -d $BUILD_DIR
 rm -f $COMPOSITE_ARTIFACTS_JAR_FILE
 
@@ -58,18 +100,18 @@ I_BUILDS_VERSION="$(xmllint --xpath 'string(/repository/children/child[last()]/@
 
 
 # =============================================================================
-#   3) Download installer and unzip the actual installation
+#   4) Download installer and unzip the actual installation
 # =============================================================================
 ECLIPSE_URL="${ECLIPSE_DMG_TEMPLATE//VERSION/$I_BUILDS_VERSION}"
 ECLIPSE_URL="${ECLIPSE_URL//ARCH/$ECLIPSE_ARCH}"
 
-wget $ECLIPSE_URL -O $INSTALLER_FILE
+download $ECLIPSE_URL $INSTALLER_FILE
 7zz -o$BUILD_DIR x $INSTALLER_FILE
 rm -f $INSTALLER_FILE
 
 
 # =============================================================================
-#   4) Prepare iBuilds installation for additional changes
+#   5) Prepare iBuilds installation for additional changes
 # =============================================================================
 APPLICATION_NAME="Eclipse-$I_BUILDS_VERSION.app"
 APPLICATION_FILE="$BUILD_DIR/$APPLICATION_NAME"
@@ -79,7 +121,7 @@ rm -rf $BUILD_DIR/Eclipse
 
 
 # =============================================================================
-#   5) Fix configuration: config.ini with default workspace
+#   6) Fix configuration: config.ini with default workspace
 # =============================================================================
 CONFIG_DIR="$APPLICATION_FILE/Contents/Eclipse/configuration"
 
@@ -88,7 +130,7 @@ replaceStringInFile "$CONFIG_DIR/config.ini" "@user.home/Documents/workspace" \
 
 
 # =============================================================================
-#   6) Fix configuration: eclipse.ini with Java 21 runtime
+#   7) Fix configuration: eclipse.ini with Java 21 runtime
 # =============================================================================
 ECLIPSE_INI="$APPLICATION_FILE/Contents/Eclipse/eclipse.ini"
 
@@ -100,7 +142,7 @@ replaceStringInFile "$ECLIPSE_INI" "-vmargs" \
 
 
 # =============================================================================
-#   7) Fix installation: Info.plist with identifier / (display) name
+#   8) Fix installation: Info.plist with identifier / (display) name
 # =============================================================================
 INFO_PLIST="$APPLICATION_FILE/Contents/Info.plist"
 
@@ -111,7 +153,7 @@ replaceStringInFile $INFO_PLIST "<string>Eclipse</string>" \
 
 
 # =============================================================================
-#   8) Install necessary plug-ins for development
+#   9) Install necessary plug-ins for development
 # =============================================================================
 touch "$APPLICATION_FILE"
 codesign --force --deep --sign - "$APPLICATION_FILE"
@@ -170,19 +212,16 @@ org.eclipse.wb.rcp.SWT_AWT_support.feature.group \
 
 
 # =============================================================================
-#   9) Remove logs and sign again
+#   10) Sign again, don't remove logs in case something didn't work correctly
 # =============================================================================
-pushd $CONFIG_DIR
-rm *.log
-popd
-
 touch "$APPLICATION_FILE"
 codesign --force --deep --sign - "$APPLICATION_FILE"
 
 
 # =============================================================================
-#   10) Remove all the old workspaces
+#   11) Remove all the old workspaces
 # =============================================================================
+mkdir $HOME/workspaces
 if ls $HOME/workspaces/I* >/dev/null 2>&1; then
     for workspace in $HOME/workspaces/I*; do
         rm -rf $workspace
@@ -191,7 +230,7 @@ fi
 
 
 # =============================================================================
-#   11) Move to user application folder and delete old ones
+#   12) Move to user application folder and delete old ones
 # =============================================================================
 APPLICATIONS_DIR="$HOME/Applications"
 if [[ ! -d "$APPLICATIONS_DIR" ]]; then

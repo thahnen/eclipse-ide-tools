@@ -148,16 +148,9 @@ org.eclipse.wb.rcp.SWT_AWT_support.feature.group \
 
 
 # =============================================================================
-#   7) Remove logs
+#   7) Remove all the old workspaces
 # =============================================================================
-pushd $CONFIG_DIR
-rm *.log
-popd
-
-
-# =============================================================================
-#   8) Remove all the old workspaces
-# =============================================================================
+mkdir $HOME/workspaces
 if ls $HOME/workspaces/I* >/dev/null 2>&1; then
     for workspace in $HOME/workspaces/I*; do
         rm -rf $workspace
@@ -166,7 +159,7 @@ fi
 
 
 # =============================================================================
-#   9) Move to user application folder and delete old ones
+#   8) Move to user application folder and delete old ones
 # =============================================================================
 APPLICATIONS_DIR="$HOME/applications"
 if [[ ! -d "$APPLICATIONS_DIR" ]]; then
@@ -184,7 +177,7 @@ cp -r $APPLICATION_DIR $APPLICATIONS_DIR/$APPLICATION_NAME
 
 
 # =============================================================================
-#   10) Create desktop files and delete old ones
+#   9) Create desktop files and delete old ones
 # =============================================================================
 DESKTOP_DIR="$HOME/.local/share/applications"
 DESKTOP_FILE="$DESKTOP_DIR/$APPLICATION_NAME.desktop"
@@ -204,7 +197,7 @@ replaceStringInFile $DESKTOP_FILE "TPL_HOME_DIR" "$HOME"
 
 
 # =============================================================================
-#   11) Update Gnome Desktop favorites
+#   10) Update Gnome Desktop favorites
 # =============================================================================
 FAVORITES_DCONF="$(dconf read /org/gnome/shell/favorite-apps)"
 FAVORITES_DCONF="${FAVORITES_DCONF#?}"
