@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.5"?>
+<plugin>
+   <extension point="org.eclipse.core.runtime.products" id="product">
+      <product application="com.hahnentt.adtclipse.application" name="ADTClipse">
+         <property name="appName"
+                   value="ADTClipse"/>
+         <property name="aboutText"
+                   value="ADTClipse: Development environment for ABAP Development Tools"/>
+         <property name="aboutImage"
+                   value="icons/icon_128x128.png"/>
+      </product>
+   </extension>
+   
+   <extension point="org.eclipse.core.runtime.applications" id="com.hahnentt.adtclipse.application">
+      <application>
+         <run class="com.hahnentt.adtclipse.plugin.ADTClipseApplication"/>
+      </application>
+   </extension>
+</plugin>

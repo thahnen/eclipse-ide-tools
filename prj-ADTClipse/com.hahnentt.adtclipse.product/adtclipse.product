@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="ADTClipse" uid="com.hahnentt.adtclipse" id="com.hahnentt.adtclipse.plugin.product" application="com.hahnentt.adtclipse.application" version="1.0.0.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-perspective com.sap.adt.ui.AbapPerspective
+-name=&quot;ADTClipse&quot;
+      </programArgs>
+      <vmArgs>-Dosgi.requiredJavaVersion=21
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <launcher name="ADTClipse">
+      <macosx icon="icons/logo.icns"/>
+      <win useIco="true">
+         <ico path="icons/logo.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="org.eclipse.platform"/>
+      <feature id="org.eclipse.justj.openjdk.hotspot.jre.minimal.stripped" installMode="root"/>
+      <feature id="com.hahnentt.adtclipse.feature"/>
+      <feature id="org.eclipse.emf.workspace"/>
+      <feature id="org.eclipse.emf.databinding.edit"/>
+      <feature id="com.sap.adt.tm.feature"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="0" />
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>

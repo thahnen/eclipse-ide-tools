@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.hahnentt.maven</groupId>
+    <artifactId>parent-eclipse</artifactId>
+    <version>1.2.0</version>
+    <relativePath />
+  </parent>
+
+  <groupId>com.hahnentt.adtclipse</groupId>
+  <artifactId>adtclipse-parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>ADTClipse</name>
+  <description>Development environment based on the ABAP Development Tools</description>
+
+  <developers>
+    <developer>
+      <id>thahnen</id>
+      <name>Tobias Hahnen</name>
+      <organization>HahnenTT</organization>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/thahnen/eclipse-ide-tools.git</connection>
+    <developerConnection>scm:git:git@github.com:thahnen/eclipse-ide-tools.git</developerConnection>
+    <url>https://github.com/thahnen/eclipse-ide-tools</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <modules>
+    <module>com.hahnentt.adtclipse.plugin</module>
+    <module>com.hahnentt.adtclipse.feature</module>
+    <module>com.hahnentt.adtclipse.product</module>
+  </modules>
+
+  <build>
+    <plugins>
+      <!-- The ABAP Development Tools from SAP are only available on Windows and macOS -->
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <configuration>
+          <target>
+            <file>../target-platforms/maven.target</file>
+          </target>
+          
+          <!-- SAP ADT is only supported on macOS and Windows -->
+          <environments>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <!--<environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>aarch64</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>aarch64</arch>
+            </environment>-->
+          </environments>
+          
+          <!-- Must be the same as in the "build.target" definition! -->
+          <executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.minimal.stripped-21</executionEnvironment>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

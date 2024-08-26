@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ADTClipse application plug-in
+Bundle-SymbolicName: com.hahnentt.adtclipse.plugin;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: HahnenTT
+Bundle-Activator: com.hahnentt.adtclipse.ADTClipsePlugin
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-ClassPath: .
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.ide.application,
+ org.eclipse.jdt.annotation;resolution:=optional

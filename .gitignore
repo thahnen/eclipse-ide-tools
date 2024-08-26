@@ -5,3 +5,9 @@
 **/build/
 **/bin/
 **/dist/
+target/
+
+# Eclipse
+.settings/
+.classpath
+.project
