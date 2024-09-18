@@ -23,9 +23,8 @@
       <unit id="com.sap.adt.wda.core.devedition.feature.group" version="0.0.0"/>
     </location>
 	  
-    <!-- INFO: Currently not working on the command line! -->
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <repository location="https://binaries.sonarsource.com/SonarLint-for-Eclipse/releases/"/>
+      <repository location="https://eclipse-us.hahnentt.com/sonarlint-p2-10.6.0.82217/"/>
       <unit id="org.sonarlint.eclipse.feature.feature.group" version="0.0.0"/>
     </location>
   </locations>
