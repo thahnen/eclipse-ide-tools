@@ -39,6 +39,7 @@
       <feature id="org.eclipse.emf.workspace"/>
       <feature id="org.eclipse.emf.databinding.edit"/>
       <feature id="com.sap.adt.tm.feature"/>
+      <feature id="org.sonarlint.eclipse.feature"/>
    </features>
 
    <configurations>
