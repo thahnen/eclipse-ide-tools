@@ -190,7 +190,7 @@ for ibuilds_installation in $DESKTOP_DIR/Eclipse-I*; do
     rm -f $ibuilds_installation
 done
 
-cp $DIR/Eclipse-iBuilds.desktop $DESKTOP_FILE
+cp $DIR/Eclipse.desktop $DESKTOP_FILE
 
 replaceStringInFile $DESKTOP_FILE "TPL_APPLICATION_NAME" "$APPLICATION_NAME"
 replaceStringInFile $DESKTOP_FILE "TPL_HOME_DIR" "$HOME"
