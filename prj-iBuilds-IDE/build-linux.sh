@@ -50,7 +50,7 @@ rm -rf $BUILD_DIR
 #   2) Download compositeArtifacts.jar and extract XML for newest version
 # =============================================================================
 mkdir $BUILD_DIR
-wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE
+wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE --no-check-certificate
 unzip $COMPOSITE_ARTIFACTS_JAR_FILE -d $BUILD_DIR
 rm -f $COMPOSITE_ARTIFACTS_JAR_FILE
 
@@ -65,7 +65,7 @@ ECLIPSE_URL="${ECLIPSE_URL//ARCH/$ECLIPSE_ARCH}"
 APPLICATION_DIR="$BUILD_DIR/Eclipse-$I_BUILDS_VERSION"
 APPLICATION_NAME="$(basename $APPLICATION_DIR)"
 
-wget $ECLIPSE_URL -O $ARCHIVE_FILE
+wget $ECLIPSE_URL -O $ARCHIVE_FILE --no-check-certificate
 mkdir $APPLICATION_DIR
 tar -xzf $ARCHIVE_FILE -C $BUILD_DIR
 mv $BUILD_DIR/eclipse/* $APPLICATION_DIR

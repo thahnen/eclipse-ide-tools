@@ -77,7 +77,7 @@ fi
 #   3) Download compositeArtifacts.jar and extract XML for newest version
 # =============================================================================
 mkdir $BUILD_DIR
-wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE
+wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE --no-check-certificate
 unzip $COMPOSITE_ARTIFACTS_JAR_FILE -d $BUILD_DIR
 rm -f $COMPOSITE_ARTIFACTS_JAR_FILE
 
@@ -90,7 +90,7 @@ I_BUILDS_VERSION="$(xmllint --xpath 'string(/repository/children/child[last()]/@
 ECLIPSE_URL="${ECLIPSE_DMG_TEMPLATE//VERSION/$I_BUILDS_VERSION}"
 ECLIPSE_URL="${ECLIPSE_URL//ARCH/$ECLIPSE_ARCH}"
 
-wget $ECLIPSE_URL -O $INSTALLER_FILE
+wget $ECLIPSE_URL -O $INSTALLER_FILE --no-check-certificate
 7zz -o$BUILD_DIR x $INSTALLER_FILE
 rm -f $INSTALLER_FILE
 
