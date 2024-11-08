@@ -129,24 +129,6 @@ org.eclipse.reddeer.ui.feature.feature.group \
     -profile SDKProfile \
     -followReferences
 
-$APPLICATION_DIR/eclipse -noSplash \
-    -application org.eclipse.equinox.p2.director \
-    -repository https://download.eclipse.org/windowbuilder/updates/milestone/latest/ \
-    -installIU org.eclipse.wb.core.feature.feature.group,\
-org.eclipse.wb.doc.user.feature.feature.group,\
-org.eclipse.wb.core.ui.feature.feature.group,\
-org.eclipse.wb.layout.group.feature.feature.group,\
-org.eclipse.wb.core.java.feature.feature.group,\
-org.eclipse.wb.swing.feature.feature.group,\
-org.eclipse.wb.swing.doc.user.feature.feature.group,\
-org.eclipse.wb.rcp.feature.feature.group,\
-org.eclipse.wb.swt.feature.feature.group,\
-org.eclipse.wb.rcp.doc.user.feature.feature.group,\
-org.eclipse.wb.rcp.SWT_AWT_support.feature.group \
-    -profile SDKProfile \
-    -followReferences
-
-
 # =============================================================================
 #   7) Remove all the old workspaces
 # =============================================================================
