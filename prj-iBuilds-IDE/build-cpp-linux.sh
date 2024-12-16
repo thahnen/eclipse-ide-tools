@@ -28,8 +28,8 @@ function awaitUser() {
 # =============================================================================
 #   *) Templated and fallback configuration
 # =============================================================================
-ECLIPSE_VERSION="2024-12"
-ECLIPSE_MILESTONE="RC1"
+ECLIPSE_VERSION="2025-03"
+ECLIPSE_MILESTONE="M1"
 ECLIPSE_TARGZ_TEMPLATE="https://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/VERSION/MILESTONE/eclipse-cpp-VERSION-MILESTONE-linux-gtk-ARCH.tar.gz"
 
 ECLIPSE_ARCH="$(uname -m)"
