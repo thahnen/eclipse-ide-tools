@@ -8,6 +8,7 @@ BUILD_DIR="$DIR/build"
 COMPOSITE_ARTIFACTS_JAR_FILE="$BUILD_DIR/compositeArtifacts.jar"
 COMPOSITE_ARTIFACTS_XML_FILE="$BUILD_DIR/compositeArtifacts.xml"
 ARCHIVE_FILE="$BUILD_DIR/archive.tar.gz"
+WORKSPACE="$BUILD_DIR/workspace"
 
 # Replace template with value in a file
 function replaceStringInFile() {
@@ -50,11 +51,16 @@ rm -rf $BUILD_DIR
 #   2) Download compositeArtifacts.jar and extract XML for newest version
 # =============================================================================
 mkdir $BUILD_DIR
-wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE --no-check-certificate
-unzip $COMPOSITE_ARTIFACTS_JAR_FILE -d $BUILD_DIR
-rm -f $COMPOSITE_ARTIFACTS_JAR_FILE
 
-I_BUILDS_VERSION="$(xmllint --xpath 'string(/repository/children/child[last()]/@location)' $COMPOSITE_ARTIFACTS_XML_FILE)"
+if [[ -z "$1" ]]; then
+    wget $ECLIPSE_COMPOSITE_URL -O $COMPOSITE_ARTIFACTS_JAR_FILE --no-check-certificate
+    unzip $COMPOSITE_ARTIFACTS_JAR_FILE -d $BUILD_DIR
+    rm -f $COMPOSITE_ARTIFACTS_JAR_FILE
+
+    I_BUILDS_VERSION="$(xmllint --xpath 'string(/repository/children/child[last()]/@location)' $COMPOSITE_ARTIFACTS_XML_FILE)"
+else
+    I_BUILDS_VERSION="$1"
+fi
 
 
 # =============================================================================
@@ -125,6 +131,7 @@ else
 fi
 
 $APPLICATION_DIR/eclipse -noSplash \
+    -data $WORKSPACE \
     -application org.eclipse.equinox.p2.director \
     -repository $UPDATE_SITE \
     -installIU org.eclipse.reddeer.eclipse.feature.feature.group,\
