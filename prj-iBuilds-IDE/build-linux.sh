@@ -123,17 +123,10 @@ if [[ -z ${SKIP_SONARLINT+x} ]]; then
         -followReferences
 fi
 
-CHECK_P2="$(curl -Is https://eclipse-us.hahnentt.com | head -1)"
-if [[ $CHECK_P2 =~ "*200*" ]]; then
-    UPDATE_SITE="https://eclipse-us.hahnentt.com/reddeer-p2-4.7.0/"
-else
-    UPDATE_SITE="https://repox.jfrog.io/artifactory/reddeer/releases/latest/"
-fi
-
 $APPLICATION_DIR/eclipse -noSplash \
     -data $WORKSPACE \
     -application org.eclipse.equinox.p2.director \
-    -repository $UPDATE_SITE \
+    -repository https://binaries.sonarsource.com/RedDeer/releases/4.7.1.83/ \
     -installIU org.eclipse.reddeer.eclipse.feature.feature.group,\
 org.eclipse.reddeer.logparser.feature.feature.group,\
 org.eclipse.reddeer.recorder.feature.feature.group,\

@@ -175,7 +175,7 @@ fi
 $APPLICATION_FILE/Contents/MacOS/eclipse -noSplash \
     -data $WORKSPACE \
     -application org.eclipse.equinox.p2.director \
-    -repository https://eclipse-us.hahnentt.com/reddeer-p2-4.7.0/ \
+    -repository https://binaries.sonarsource.com/RedDeer/releases/4.7.1.83/ \
     -installIU org.eclipse.reddeer.eclipse.feature.feature.group,\
 org.eclipse.reddeer.logparser.feature.feature.group,\
 org.eclipse.reddeer.recorder.feature.feature.group,\
