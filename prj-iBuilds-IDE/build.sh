@@ -31,7 +31,7 @@ function awaitUser() {
 # =============================================================================
 #   *) Templated and fallback configuration
 # =============================================================================
-ECLIPSE_VERSION="4.37"
+ECLIPSE_VERSION="4.38"
 ECLIPSE_COMPOSITE_URL="https://www.eclipse.org/downloads/download.php?file=/eclipse/updates/$ECLIPSE_VERSION-I-builds/compositeArtifacts.jar"
 ECLIPSE_DMG_TEMPLATE="https://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops4/VERSION/eclipse-SDK-VERSION-macosx-cocoa-ARCH.dmg"
 
