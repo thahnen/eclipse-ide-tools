@@ -85,6 +85,7 @@ if [[ -z "$1" ]]; then
     rm -f $COMPOSITE_ARTIFACTS_JAR_FILE
 
     I_BUILDS_VERSION="$(xmllint --xpath 'string(/repository/children/child[last()]/@location)' $COMPOSITE_ARTIFACTS_XML_FILE)"
+    I_BUILDS_VERSION_PREV="$(xmllint --xpath 'string(/repository/children/child[last()-1]/@location)' $COMPOSITE_ARTIFACTS_XML_FILE)"
 else
     I_BUILDS_VERSION="$1"
 fi
@@ -98,13 +99,39 @@ ECLIPSE_URL="${ECLIPSE_URL//ARCH/$ECLIPSE_ARCH}"
 
 wget $ECLIPSE_URL -O $INSTALLER_FILE --no-check-certificate
 7zz -o$BUILD_DIR x $INSTALLER_FILE
+if [[ "$?" -ne "0" ]]; then
+    rm -f $INSTALLER_FILE
+    
+    if [[ ! -z "$I_BUILDS_VERSION_PREV" ]]; then
+        echo "Latest iBuilds ($I_BUILDS_VERSION) not available."
+
+        ECLIPSE_URL="${ECLIPSE_DMG_TEMPLATE//VERSION/$I_BUILDS_VERSION_PREV}"
+        ECLIPSE_URL="${ECLIPSE_URL//ARCH/$ECLIPSE_ARCH}"
+
+        wget $ECLIPSE_URL -O $INSTALLER_FILE --no-check-certificate
+        7zz -o$BUILD_DIR x $INSTALLER_FILE
+        if [[ "$?" -ne "0" ]]; then
+            rm -f $INSTALLER_FILE
+
+            echo "Previous iBuilds ($I_BUILDS_VERSION_PREV) also not available."
+            return
+        fi
+    else
+        echo "Previous iBuilds does not exist, stopping here!"
+        return
+    fi
+
+    VERSION=$I_BUILDS_VERSION_PREV
+else
+    VERSION=$I_BUILDS_VERSION
+fi
 rm -f $INSTALLER_FILE
 
 
 # =============================================================================
 #   5) Prepare iBuilds installation for additional changes
 # =============================================================================
-APPLICATION_NAME="Eclipse-$I_BUILDS_VERSION.app"
+APPLICATION_NAME="Eclipse-$VERSION.app"
 APPLICATION_FILE="$BUILD_DIR/$APPLICATION_NAME"
 
 mv $BUILD_DIR/Eclipse/Eclipse.app $APPLICATION_FILE
@@ -117,7 +144,7 @@ rm -rf $BUILD_DIR/Eclipse
 CONFIG_DIR="$APPLICATION_FILE/Contents/Eclipse/configuration"
 
 replaceStringInFile "$CONFIG_DIR/config.ini" "@user.home/Documents/workspace" \
-    "@user.home/workspaces/$I_BUILDS_VERSION"
+    "@user.home/workspaces/$VERSION"
 
 
 # =============================================================================
@@ -138,9 +165,9 @@ replaceStringInFile "$ECLIPSE_INI" "-vmargs" \
 INFO_PLIST="$APPLICATION_FILE/Contents/Info.plist"
 
 replaceStringInFile $INFO_PLIST "<string>org.eclipse.sdk.ide</string>" \
-    "<string>org.eclipse.sdk.ide.$I_BUILDS_VERSION</string>"
+    "<string>org.eclipse.sdk.ide.$VERSION</string>"
 replaceStringInFile $INFO_PLIST "<string>Eclipse</string>" \
-    "<string>Eclipse $I_BUILDS_VERSION</string>"
+    "<string>Eclipse $VERSION</string>"
 
 
 # =============================================================================
@@ -156,14 +183,12 @@ $APPLICATION_FILE/Contents/MacOS/eclipse -noSplash \
     -profile SDKProfile \
     -followReferences
 
-if [[ -z ${SKIP_SONARLINT+x} ]]; then
-    $APPLICATION_FILE/Contents/MacOS/eclipse -noSplash \
-        -application org.eclipse.equinox.p2.director \
-        -repository https://binaries.sonarsource.com/SonarLint-for-Eclipse/dogfood/ \
-        -installIU org.sonarlint.eclipse.feature.feature.group \
-        -profile SDKProfile \
-        -followReferences
-fi
+$APPLICATION_FILE/Contents/MacOS/eclipse -noSplash \
+    -application org.eclipse.equinox.p2.director \
+    -repository https://binaries.sonarsource.com/SonarLint-for-Eclipse/dogfood/ \
+    -installIU org.sonarlint.eclipse.feature.feature.group \
+    -profile SDKProfile \
+    -followReferences
 
 $APPLICATION_FILE/Contents/MacOS/eclipse -noSplash \
     -data $WORKSPACE \
