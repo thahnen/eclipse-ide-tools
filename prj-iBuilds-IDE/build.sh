@@ -209,6 +209,7 @@ org.eclipse.reddeer.ui.feature.feature.group \
 # =============================================================================
 touch "$APPLICATION_FILE"
 codesign --force --deep --sign - "$APPLICATION_FILE"
+xattr -d com.apple.quarantine "$APPLICATION_FILE"
 
 
 # =============================================================================
