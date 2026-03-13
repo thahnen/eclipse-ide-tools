@@ -17,16 +17,13 @@ development and not just for messing around.
 
 Currently the installed plug-ins are:
 - Eclipse Maven integration (m2e)
-- Eclipse Buildship
-- SonarLint, optional but enabled by default
+- SonarQube for IDE
 - RedDeer UI testing framework
-- WindowBuilder
 
 TODOs:
 - add configuration application / plug-in for setting up workspace with specific preferences
 - back-up workspace in case something breaks
 - forbid users to create projects inside the workspace, just outside of it
-- install Bndtools snapshot plug-ins
 
 #### Workspace configuration
 
