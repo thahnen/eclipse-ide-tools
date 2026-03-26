@@ -8,7 +8,7 @@ specific environment or plug-ins bringing quality of life features or patches.
 This paragraph provides a quick abstract of all the projects inside this repository as content such
 as scripts or plug-ins are grouped together or located in their destinct folder.
 
-#### iBuilds IDE
+### iBuilds IDE
 
 This creates a destinct Eclipse IDE installation based on the latest (stable) integration build of
 the Eclipse SDK with all the necessary features / plug-ins / configurations used for development in
@@ -20,12 +20,13 @@ Currently the installed plug-ins are:
 - SonarQube for IDE
 - RedDeer UI testing framework
 
-TODOs:
-- add configuration application / plug-in for setting up workspace with specific preferences
-- back-up workspace in case something breaks
-- forbid users to create projects inside the workspace, just outside of it
+### Sloeber (Patched)
 
-#### Workspace configuration
+The default installation for [Sloeber](https://github.com/Sloeber/arduino-eclipse-plugin) does not
+work correctly on macOS, based on the version **4.4.3**. We therefore have to patch the
+distribution and add the necessary plug-ins (*SonarQube for IDE*).
+
+### Workspace configuration
 
 This is an application / plug-in that is used to configure a workspace based on Eclipse preferences
 on the workspace or instance level.

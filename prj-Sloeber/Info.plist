@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+
+<dict>
+	<key>NSRequiresAquaSystemAppearance</key>
+		<true/>
+	
+  <key>CFBundleExecutable</key>
+		<string>sloeber-ide</string>
+	
+  <key>CFBundleGetInfoString</key>
+		<string>Sloeber 4.4.3 for macOS.</string>
+	
+  <key>CFBundleIconFile</key>
+		<string>Sloeber.icns</string>
+	
+  <key>CFBundleIdentifier</key>
+		<string>io.sloeber.core.product.4.4.3</string>
+	
+  <key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+	
+  <key>CFBundleName</key>
+		<string>Sloeber</string>
+	
+  <key>CFBundlePackageType</key>
+		<string>APPL</string>
+	
+  <key>CFBundleShortVersionString</key>
+		<string>4.4.3</string>
+	
+  <key>CFBundleSignature</key>
+		<string>????</string>
+	
+  <key>CFBundleVersion</key>
+		<string>4.4.3</string>
+	
+  <key>NSHighResolutionCapable</key>
+		<true/>
+	
+  <key>CFBundleDevelopmentRegion</key>
+		<string>English</string>		
+	
+  <key>Eclipse</key>
+		<array>
+			<string>-keyring</string><string>~/.eclipse_keyring</string>
+		</array>
+</dict>
+</plist>

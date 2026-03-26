@@ -1,0 +1,4 @@
+Manager\ jsons=https\://downloads.arduino.cc/packages/package_index.json\nhttps\://raw.githubusercontent.com/jantje/hardware/master/package_jantje_index.json\nhttps\://raw.githubusercontent.com/jantje/ArduinoLibraries/master/library_jantje_index.json\nhttps\://arduino.esp8266.com/stable/package_esp8266com_index.json\nhttps\://www.pjrc.com/teensy/package_teensy_index.json\nfile\://LOCAL_FILE
+Target\ names\ that\ require\ serial\ disconnect\ to\ run=BurnBootLoader\nuploadWithBuild\nuploadWithoutBuild\nuploadWithProgrammerWithBuild\nuploadWithProgrammerWithoutBuild
+Update\ jsons\ files=true
+eclipse.preferences.version=1
