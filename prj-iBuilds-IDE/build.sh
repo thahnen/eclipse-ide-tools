@@ -16,17 +16,6 @@ function replaceStringInFile() {
     rm "$1r"
 }
 
-# Await user input until "yes" is answered 
-function awaitUser() {
-    while true; do
-        read "yn?$1 "
-        case $yn in
-            [Yy]* ) break;;
-            *) echo "Please answer with yes!";;
-        esac
-    done
-}
-
 
 # =============================================================================
 #   *) Templated and fallback configuration
