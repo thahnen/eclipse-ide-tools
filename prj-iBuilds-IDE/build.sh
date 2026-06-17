@@ -20,7 +20,7 @@ function replaceStringInFile() {
 # =============================================================================
 #   *) Templated and fallback configuration
 # =============================================================================
-ECLIPSE_VERSION="4.40"
+ECLIPSE_VERSION="4.41"
 ECLIPSE_COMPOSITE_URL="https://www.eclipse.org/downloads/download.php?file=/eclipse/updates/$ECLIPSE_VERSION-I-builds/compositeArtifacts.jar"
 ECLIPSE_DMG_TEMPLATE="https://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops4/VERSION/eclipse-SDK-VERSION-macosx-cocoa-ARCH.dmg"
 
@@ -137,11 +137,11 @@ replaceStringInFile "$CONFIG_DIR/config.ini" "@user.home/Documents/workspace" \
 
 
 # =============================================================================
-#   7) Fix configuration: eclipse.ini with Java 21 runtime
+#   7) Fix configuration: eclipse.ini with Java 25 runtime
 # =============================================================================
 ECLIPSE_INI="$APPLICATION_FILE/Contents/Eclipse/eclipse.ini"
 
-JAVA_INSTALLATION_DIR="$(/usr/libexec/java_home -v "21")"
+JAVA_INSTALLATION_DIR="$(/usr/libexec/java_home -v "25")"
 JAVA_EXECUTABLE_FILE="$JAVA_INSTALLATION_DIR/bin/java"
 
 replaceStringInFile "$ECLIPSE_INI" "-vmargs" \

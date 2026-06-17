@@ -31,7 +31,7 @@ function awaitUser() {
 # =============================================================================
 #   *) Templated and fallback configuration
 # =============================================================================
-ECLIPSE_VERSION="4.40"
+ECLIPSE_VERSION="4.41"
 ECLIPSE_COMPOSITE_URL="https://www.eclipse.org/downloads/download.php?file=/eclipse/updates/$ECLIPSE_VERSION-I-builds/compositeArtifacts.jar"
 ECLIPSE_TARGZ_TEMPLATE="https://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops4/VERSION/eclipse-SDK-VERSION-linux-gtk-ARCH.tar.gz"
 
@@ -89,12 +89,12 @@ replaceStringInFile "$CONFIG_DIR/config.ini" "@user.home/workspace" \
 
 
 # =============================================================================
-#   5) Fix configuration: eclipse.ini with Java 21 runtime
+#   5) Fix configuration: eclipse.ini with Java 25 runtime
 # =============================================================================
 ECLIPSE_INI="$APPLICATION_DIR/eclipse.ini"
 
 replaceStringInFile "$ECLIPSE_INI" "-vmargs" \
-    "-vm\n/usr/lib/jvm/java-21-openjdk-amd64/bin/java\n-vmargs"
+    "-vm\n/usr/lib/jvm/java-25-openjdk-amd64/bin/java\n-vmargs"
 
 
 # =============================================================================
